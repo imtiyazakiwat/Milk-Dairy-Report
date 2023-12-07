@@ -3,8 +3,25 @@
 <head>
     <title>Item History</title>
     <link rel="stylesheet" type="text/css" href="item-history.css">
+    <link rel="stylesheet" href="navbar.css">
 </head>
 <body>
+    <header>
+        <div class="logo">Item Page</div>
+        <!-- <div class="app-name">Item Page</div> -->
+        <div class="menu" onclick="toggleNavbar()">
+            <img src="menu-burger.svg" alt="">
+        </div>
+    </header>
+    <nav id="navbar">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="item.html">Item</a></li>
+            <li><a href="milk-history.html">Milk History</a></li>
+            <li><a href="item-history.html">Item History</a></li>
+            <li><a href="account-history.html">Account History</a></li>
+        </ul>
+    </nav>
     <table id="itemTable">
         <thead>
             <tr>
@@ -42,6 +59,11 @@
                 qtyCell.textContent = item.qty;
             });
         });
+
+        function toggleNavbar() {
+    const navbar = document.getElementById('navbar');
+    navbar.style.display = (navbar.style.display === 'block') ? 'none' : 'block';
+}
     </script>
 </body>
 </html>
