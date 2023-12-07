@@ -3,25 +3,22 @@ function submitForm() {
     const date = document.getElementById('date').value;
     const time = document.getElementById('time').value;
     const litres = document.getElementById('litres').value;
+
+    // Create a new entry object
+    const newEntry = { date, time, litres };
     
-    // Handle checkboxes
-    const checkbox1 = document.getElementById('checkbox1');
-    const checkbox2 = document.getElementById('checkbox2');
-    
-    // Check if the checkboxes exist before trying to access their 'checked' property
-    const checkbox1Value = checkbox1 ? checkbox1.checked : false;
-    const checkbox2Value = checkbox2 ? checkbox2.checked : false;
 
-    // Do whatever you need with the form values (e.g., calculation)
+    // Get existing milk history data from localStorage
+    let milkHistoryData = JSON.parse(localStorage.getItem('milkHistoryData')) || [];
 
-    // For now, let's log the values to the console
-    console.log('Date:', date);
-    console.log('Time:', time);
-    console.log('Litres:', litres);
-    console.log('Checkbox 1:', checkbox1Value);
-    console.log('Checkbox 2:', checkbox2Value);
+    // Add new entry to milk history data
+    milkHistoryData.push(newEntry);
 
-    // You can add more logic here based on your requirements
+    // Save updated milk history data to localStorage
+    localStorage.setItem('milkHistoryData', JSON.stringify(milkHistoryData));
+
+    // Redirect to milk-history.html
+    window.location.href = 'milk-history.html';
 }
 function toggleNavbar() {
     const navbar = document.getElementById('navbar');

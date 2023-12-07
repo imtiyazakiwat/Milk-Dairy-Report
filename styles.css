@@ -65,9 +65,8 @@ button:hover {
 }
 
 
-/* Add this to your existing styles.css */
 
 .submit-button-container {
     text-align: center;
-    margin-top: 20px; /* Adjust as needed for spacing */
+    margin-top: 20px;
 }
