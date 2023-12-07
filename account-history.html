@@ -107,6 +107,7 @@ img{
                 <th>Item Name</th>
                 <th>Rate</th>
                 <th>Quantity</th>
+                <th>Balance</th> <!-- New column for balance -->
             </tr>
         </thead>
         <tbody>
@@ -155,23 +156,34 @@ img{
     // Convert the grouped data object to an array and sort by date
     const accountHistoryData = Object.values(groupedData).sort((a, b) => new Date(a.date) - new Date(b.date));
 
+    let balance = 0;
+    
+
     // Populate table with data
     accountHistoryData.forEach(data => {
-        const row = tbody.insertRow();
-        const dateCell = row.insertCell(0);
-        const morningCell = row.insertCell(1);
-        const eveningCell = row.insertCell(2);
-        const nameCell = row.insertCell(3);
-        const rateCell = row.insertCell(4);
-        const qtyCell = row.insertCell(5);
+                const row = tbody.insertRow();
+                const dateCell = row.insertCell(0);
+                const morningCell = row.insertCell(1);
+                const eveningCell = row.insertCell(2);
+                const nameCell = row.insertCell(3);
+                const rateCell = row.insertCell(4);
+                const qtyCell = row.insertCell(5);
+                const balanceCell = row.insertCell(6); // New cell for balance
 
-        dateCell.textContent = data.date;
-        morningCell.textContent = data.morningMilk || '';
-        eveningCell.textContent = data.eveningMilk || '';
-        nameCell.textContent = data.itemName || '';
-        rateCell.textContent = data.rate || '';
-        qtyCell.textContent = data.qty || '';
-    });
+                dateCell.textContent = data.date;
+                morningCell.textContent = data.morningMilk || '';
+                eveningCell.textContent = data.eveningMilk || '';
+                nameCell.textContent = data.itemName || '';
+                rateCell.textContent = data.rate || '';
+                qtyCell.textContent = data.qty || '';
+
+                // Calculate balance
+                const milkRate = localStorage.getItem('milkRate') || 50;
+                const milkSold = (data.morningMilk || 0) + (data.eveningMilk || 0);
+                const itemCost = (data.rate || 0) * (data.qty || 0);
+                balance += milkSold * milkRate - itemCost;
+                balanceCell.textContent = balance;
+            });
 }
     
         function toggleNavbar() {
