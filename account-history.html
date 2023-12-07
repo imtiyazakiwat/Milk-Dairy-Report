@@ -178,11 +178,11 @@ img{
                 qtyCell.textContent = data.qty || '';
 
                 // Calculate balance
-                const milkRate = localStorage.getItem('milkRate') || 50;
-                const milkSold = (data.morningMilk || 0) + (data.eveningMilk || 0);
-                const itemCost = (data.rate || 0) * (data.qty || 0);
-                balance += milkSold * milkRate - itemCost;
-                balanceCell.textContent = balance;
+const milkRate = Number(localStorage.getItem('milkRate')) || 50;
+const milkSold = Number(data.morningMilk || 0) + Number(data.eveningMilk || 0);
+const itemCost = Number(data.rate || 0) * Number(data.qty || 0);
+balance += milkSold * milkRate - itemCost;
+balanceCell.textContent = balance;
             });
 }
     
