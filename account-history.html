@@ -121,58 +121,58 @@ img{
         });
     
         function populateAccountHistoryTable() {
-            const accountTable = document.getElementById('accountTable');
-            const tbody = accountTable.getElementsByTagName('tbody')[0];
-    
-            // Get milk and item history data from localStorage
-            const milkHistoryData = JSON.parse(localStorage.getItem('milkHistoryData')) || [];
-            const itemHistoryData = JSON.parse(localStorage.getItem('itemHistoryData')) || [];
-    
-            // Create an object to group data by date
-            const groupedData = {};
-    
-            // Group milk history data by date
-            milkHistoryData.forEach(data => {
-                const date = data.date;
-                if (!groupedData[date]) {
-                    groupedData[date] = { date: date, morningMilk: '', eveningMilk: '', itemName: '', rate: '', qty: '' };
-                }
-                groupedData[date].morningMilk = data.morning;
-                groupedData[date].eveningMilk = data.evening;
-            });
-    
-            // Group item history data by date
-            itemHistoryData.forEach(data => {
-                const date = data.itemDate;
-                if (!groupedData[date]) {
-                    groupedData[date] = { date: date, morningMilk: '', eveningMilk: '', itemName: '', rate: '', qty: '' };
-                }
-                groupedData[date].itemName = data.itemName;
-                groupedData[date].rate = data.rate;
-                groupedData[date].qty = data.qty;
-            });
-    
-            // Convert the grouped data object to an array and sort by date
-            const accountHistoryData = Object.values(groupedData).sort((a, b) => new Date(a.date) - new Date(b.date));
-    
-            // Populate table with data
-            accountHistoryData.forEach(data => {
-                const row = tbody.insertRow();
-                const dateCell = row.insertCell(0);
-                const morningCell = row.insertCell(1);
-                const eveningCell = row.insertCell(2);
-                const nameCell = row.insertCell(3);
-                const rateCell = row.insertCell(4);
-                const qtyCell = row.insertCell(5);
-    
-                dateCell.textContent = data.date;
-                morningCell.textContent = data.morningMilk || '';
-                eveningCell.textContent = data.eveningMilk || '';
-                nameCell.textContent = data.itemName || '';
-                rateCell.textContent = data.rate || '';
-                qtyCell.textContent = data.qty || '';
-            });
+    const accountTable = document.getElementById('accountTable');
+    const tbody = accountTable.getElementsByTagName('tbody')[0];
+
+    // Get milk and item history data from localStorage
+    const milkHistoryData = JSON.parse(localStorage.getItem('milkHistoryData')) || [];
+    const itemHistoryData = JSON.parse(localStorage.getItem('itemHistoryData')) || [];
+
+    // Create an object to group data by date
+    const groupedData = {};
+
+    // Group milk history data by date
+    milkHistoryData.reduce((acc, entry) => {
+        const date = entry.date;
+        if (!acc[date]) {
+            acc[date] = { date: date, morningMilk: '', eveningMilk: '', itemName: '', rate: '', qty: '' };
         }
+        acc[date][entry.time.toLowerCase() + 'Milk'] = entry.litres;
+        return acc;
+    }, groupedData);
+
+    // Group item history data by date
+    itemHistoryData.forEach(data => {
+        const date = data.itemDate;
+        if (!groupedData[date]) {
+            groupedData[date] = { date: date, morningMilk: '', eveningMilk: '', itemName: '', rate: '', qty: '' };
+        }
+        groupedData[date].itemName = data.itemName;
+        groupedData[date].rate = data.rate;
+        groupedData[date].qty = data.qty;
+    });
+
+    // Convert the grouped data object to an array and sort by date
+    const accountHistoryData = Object.values(groupedData).sort((a, b) => new Date(a.date) - new Date(b.date));
+
+    // Populate table with data
+    accountHistoryData.forEach(data => {
+        const row = tbody.insertRow();
+        const dateCell = row.insertCell(0);
+        const morningCell = row.insertCell(1);
+        const eveningCell = row.insertCell(2);
+        const nameCell = row.insertCell(3);
+        const rateCell = row.insertCell(4);
+        const qtyCell = row.insertCell(5);
+
+        dateCell.textContent = data.date;
+        morningCell.textContent = data.morningMilk || '';
+        eveningCell.textContent = data.eveningMilk || '';
+        nameCell.textContent = data.itemName || '';
+        rateCell.textContent = data.rate || '';
+        qtyCell.textContent = data.qty || '';
+    });
+}
     
         function toggleNavbar() {
             const navbar = document.getElementById('navbar');
